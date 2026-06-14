@@ -1,0 +1,63 @@
+﻿@model DapperBigData.Dtos.CityDtos.GetByIdCityDto
+@{
+    ViewData["Title"] = "Şehir Detay";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Şehirler / <span>Detay</span></div>
+        <div class="page-title">@Model.CityName</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdateCity" asp-route-id="@Model.CityId" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="CityList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--primary-dim);color:var(--primary)">
+            <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="kpi-label">Toplam Sipariş</div>
+        <div class="kpi-val">@Model.TotalOrders.ToString("N0")</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--success-dim);color:var(--success)">
+            <i class="fas fa-turkish-lira-sign"></i>
+        </div>
+        <div class="kpi-label">Toplam Ciro</div>
+        <div class="kpi-val">@Model.TotalRevenue.ToString("N0") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--warning-dim);color:var(--warning)">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="kpi-label">Toplam Müşteri</div>
+        <div class="kpi-val">@Model.TotalCustomers.ToString("N0")</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Şehir Bilgileri</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Şehir ID</span>
+            <span style="font-weight:700">#@Model.CityId</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Şehir Adı</span>
+            <span style="font-weight:700">@Model.CityName</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0">
+            <span style="color:var(--muted);font-weight:600">Plaka Kodu</span>
+            <span class="badge badge-muted">@Model.PlateCode</span>
+        </div>
+    </div>
+</div>

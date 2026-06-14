@@ -1,0 +1,83 @@
+﻿@model DapperBigData.Dtos.CustomerDtos.GetByIdCustomerDto
+@{
+    ViewData["Title"] = "Müşteri Detay";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / Müşteriler / <span>Detay</span></div>
+        <div class="page-title">@Model.FullName</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdateCustomer" asp-route-id="@Model.CustomerId" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="CustomerList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--primary-dim);color:var(--primary)">
+            <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="kpi-label">Toplam Sipariş</div>
+        <div class="kpi-val">@Model.TotalOrders.ToString("N0")</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--success-dim);color:var(--success)">
+            <i class="fas fa-turkish-lira-sign"></i>
+        </div>
+        <div class="kpi-label">Toplam Harcama</div>
+        <div class="kpi-val">@Model.TotalSpent.ToString("N0") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--warning-dim);color:var(--warning)">
+            <i class="fas fa-map-location-dot"></i>
+        </div>
+        <div class="kpi-label">Şehir</div>
+        <div class="kpi-val" style="font-size:16px">@Model.CityName</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Müşteri Bilgileri</div>
+        @if (Model.IsActive)
+        {
+            <span class="badge badge-success">Aktif</span>
+        }
+        else
+        {
+            <span class="badge badge-danger">Pasif</span>
+        }
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Müşteri ID</span>
+            <span style="font-weight:700">#@Model.CustomerId</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Ad Soyad</span>
+            <span style="font-weight:700">@Model.FullName</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">E-posta</span>
+            <span>@Model.Email</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Telefon</span>
+            <span>@Model.Phone</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Şehir</span>
+            <span>@Model.CityName (@Model.PlateCode)</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0">
+            <span style="color:var(--muted);font-weight:600">Kayıt Tarihi</span>
+            <span>@Model.CreatedAt.ToString("dd.MM.yyyy")</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model List<DapperBigData.Dtos.OrderDtos.ResultOrderDto>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Son Siparişler</div>
+        <span class="badge badge-success"><span class="status-dot"></span> Canlı</span>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="order-item">
+            <div class="order-av" style="background:var(--primary-dim);color:var(--primary);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">
+                @item.CustomerFullName.Split(' ')[0][0]@item.CustomerFullName.Split(' ').Last()[0]
+            </div>
+            <div>
+                <div class="o-name" style="font-size:12.5px;font-weight:700;color:var(--text)">@item.CustomerFullName</div>
+                <div class="o-no" style="font-size:11px;color:var(--muted)">@item.OrderNumber</div>
+            </div>
+            <div style="margin-left:auto;text-align:right">
+                <div class="o-amt" style="font-size:13px;font-weight:800;color:var(--text)">₺@item.TotalAmount.ToString("N2")</div>
+                @if (item.OrderStatus == "Completed")
+                {
+                    <span class="badge badge-success" style="font-size:9.5px;margin-top:3px">Tamamlandı</span>
+                }
+                else if (item.OrderStatus == "Pending")
+                {
+                    <span class="badge badge-warning" style="font-size:9.5px;margin-top:3px">Beklemede</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger" style="font-size:9.5px;margin-top:3px">İptal</span>
+                }
+            </div>
+        </div>
+    }
+</div>

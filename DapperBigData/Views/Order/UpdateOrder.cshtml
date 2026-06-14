@@ -1,0 +1,99 @@
+﻿@model DapperBigData.Dtos.OrderDtos.GetByIdOrderDto
+@{
+    ViewData["Title"] = "Sipariş Düzenle";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / Siparişler / <span>Düzenle</span></div>
+        <div class="page-title">Sipariş Düzenle</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="OrderList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="UpdateOrder" method="post">
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Müşteri</label>
+                <select name="CustomerId" class="form-control">
+                    @foreach (var customer in ViewBag.Customers)
+                    {
+                        if (customer.CustomerId == Model.CustomerId)
+                        {
+                            <option value="@customer.CustomerId" selected>@customer.FullName</option>
+                        }
+                        else
+                        {
+                            <option value="@customer.CustomerId">@customer.FullName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ödeme Yöntemi</label>
+                <select name="PaymentMethodId" class="form-control">
+                    @foreach (var pm in ViewBag.PaymentMethods)
+                    {
+                        if (pm.PaymentMethodId == Model.PaymentMethodId)
+                        {
+                            <option value="@pm.PaymentMethodId" selected>@pm.MethodName</option>
+                        }
+                        else
+                        {
+                            <option value="@pm.PaymentMethodId">@pm.MethodName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Sipariş No</label>
+                <input type="text" name="OrderNumber" value="@Model.OrderNumber" class="form-control" />
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Sipariş Tarihi</label>
+                    <input type="date" name="OrderDate" value="@Model.OrderDate.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Toplam Tutar</label>
+                    <input type="number" name="TotalAmount" value="@Model.TotalAmount" step="0.01" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Durum</label>
+                <select name="OrderStatus" class="form-control">
+                    @if (Model.OrderStatus == "Completed")
+                    {
+                        <option value="Completed" selected>Tamamlandı</option>
+                        <option value="Pending">Beklemede</option>
+                        <option value="Cancelled">İptal</option>
+                    }
+                    else if (Model.OrderStatus == "Pending")
+                    {
+                        <option value="Completed">Tamamlandı</option>
+                        <option value="Pending" selected>Beklemede</option>
+                        <option value="Cancelled">İptal</option>
+                    }
+                    else
+                    {
+                        <option value="Completed">Tamamlandı</option>
+                        <option value="Pending">Beklemede</option>
+                        <option value="Cancelled" selected>İptal</option>
+                    }
+                </select>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="OrderList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Güncelle
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

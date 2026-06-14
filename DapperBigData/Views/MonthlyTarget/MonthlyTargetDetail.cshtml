@@ -1,0 +1,85 @@
+﻿@model DapperBigData.Dtos.MonthlyTargetDtos.GetByIdMonthlyTargetDto
+@{
+    ViewData["Title"] = "Hedef Detay";
+    string[] months = { "", "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" };
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Aylık Hedefler / <span>Detay</span></div>
+        <div class="page-title">@months[Model.TargetMonth] @Model.TargetYear</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdateMonthlyTarget" asp-route-year="@Model.TargetYear" asp-route-month="@Model.TargetMonth" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="MonthlyTargetList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--primary-dim);color:var(--primary)">
+            <i class="fas fa-bullseye"></i>
+        </div>
+        <div class="kpi-label">Ciro Hedefi</div>
+        <div class="kpi-val" style="font-size:18px">@Model.RevenueTarget.ToString("N0") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--success-dim);color:var(--success)">
+            <i class="fas fa-turkish-lira-sign"></i>
+        </div>
+        <div class="kpi-label">Gerçekleşen Ciro</div>
+        <div class="kpi-val" style="font-size:18px">@Model.ActualRevenue.ToString("N0") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--warning-dim);color:var(--warning)">
+            <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="kpi-label">Sipariş Hedefi</div>
+        <div class="kpi-val">@Model.OrderTarget.ToString("N0")</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--purple-dim);color:var(--purple)">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="kpi-label">Gerçekleşen Sipariş</div>
+        <div class="kpi-val">@Model.ActualOrders.ToString("N0")</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card">
+        <div class="card-hdr">
+            <div class="card-title">Ciro Gerçekleşme</div>
+            <span class="badge @(Model.RevenueAchievementPct >= 100 ? "badge-success" : Model.RevenueAchievementPct >= 75 ? "badge-warning" : "badge-danger")">
+                %@Model.RevenueAchievementPct
+            </span>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;height:12px;overflow:hidden">
+            <div style="height:100%;width:@(Math.Min(Model.RevenueAchievementPct, 100))%;background:linear-gradient(90deg,var(--primary),var(--purple));border-radius:8px;transition:width .3s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--muted)">
+            <span>0 ₺</span>
+            <span>@Model.RevenueTarget.ToString("N0") ₺</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-hdr">
+            <div class="card-title">Sipariş Gerçekleşme</div>
+            <span class="badge @(Model.OrderAchievementPct >= 100 ? "badge-success" : Model.OrderAchievementPct >= 75 ? "badge-warning" : "badge-danger")">
+                %@Model.OrderAchievementPct
+            </span>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;height:12px;overflow:hidden">
+            <div style="height:100%;width:@(Math.Min(Model.OrderAchievementPct, 100))%;background:linear-gradient(90deg,var(--success),#16A34A);border-radius:8px;transition:width .3s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--muted)">
+            <span>0</span>
+            <span>@Model.OrderTarget.ToString("N0")</span>
+        </div>
+    </div>
+</div>

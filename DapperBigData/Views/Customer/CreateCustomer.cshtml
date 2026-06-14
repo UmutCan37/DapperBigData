@@ -1,0 +1,56 @@
+﻿@model DapperBigData.Dtos.CustomerDtos.CreateCustomerDto
+@{
+    ViewData["Title"] = "Yeni Müşteri";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / Müşteriler / <span>Yeni Müşteri</span></div>
+        <div class="page-title">Yeni Müşteri</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="CustomerList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="CreateCustomer" method="post">
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Şehir</label>
+                <select name="CityId" class="form-control">
+                    @foreach (var city in ViewBag.Cities)
+                    {
+                        <option value="@city.CityId">@city.CityName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Ad</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Ahmet" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soyad</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Yılmaz" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">E-posta</label>
+                <input asp-for="Email" class="form-control" placeholder="ahmet@example.com" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Telefon</label>
+                <input asp-for="Phone" class="form-control" placeholder="0555 000 00 00" />
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="CustomerList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Kaydet
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,65 @@
+﻿@model DapperBigData.Dtos.SystemSettingDtos.GetByIdSystemSettingDto
+@{
+    ViewData["Title"] = "Ayar Detay";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Sistem / Ayarlar / <span>Detay</span></div>
+        <div class="page-title">@Model.SettingKey</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdateSystemSetting" asp-route-id="@Model.SettingId" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="SystemSettingList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Ayar Bilgileri</div>
+        @if (Model.IsToggle)
+        {
+            <span class="badge badge-purple">Toggle</span>
+        }
+        else
+        {
+            <span class="badge badge-muted">Input</span>
+        }
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">ID</span>
+            <span style="font-weight:700">#@Model.SettingId</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Anahtar</span>
+            <code>@Model.SettingKey</code>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Değer</span>
+            @if (Model.IsToggle)
+            {
+                if (Model.SettingValue == "1" || Model.SettingValue.ToLower() == "true")
+                {
+                    <span class="badge badge-success">Açık</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Kapalı</span>
+                }
+            }
+            else
+            {
+                <span style="font-weight:700">@Model.SettingValue</span>
+            }
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0">
+            <span style="color:var(--muted);font-weight:600">Açıklama</span>
+            <span>@Model.Description</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model List<DapperBigData.Dtos.ProductDtos.ResultProductDto>
+
+<div class="card">
+    <div class="card-hdr">
+        <div>
+            <div class="card-title">En Çok Satan Ürünler</div>
+            <div class="card-sub">Ciroya göre · Tüm zamanlar</div>
+        </div>
+        <a asp-controller="Product" asp-action="ProductList" class="btn btn-ghost btn-sm">
+            Tümünü Gör <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ürün</th>
+                <th>Ciro</th>
+                <th>Adet</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                <tr>
+                    <td>
+                        <div style="width:22px;height:22px;border-radius:7px;background:var(--primary-dim);color:var(--primary);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center">
+                            @(i + 1)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="td-product">
+                            <div class="name">@item.ProductName</div>
+                            <div class="sub">@item.CategoryName</div>
+                        </div>
+                    </td>
+                    <td class="td-amount">₺@((item.TotalRevenue / 1000).ToString("N0"))K</td>
+                    <td class="td-muted">@item.TotalSold.ToString("N0")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

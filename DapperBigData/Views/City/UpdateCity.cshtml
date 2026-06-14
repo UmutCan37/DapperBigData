@@ -1,0 +1,38 @@
+﻿@model DapperBigData.Dtos.CityDtos.GetByIdCityDto
+@{
+    ViewData["Title"] = "Şehir Düzenle";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Şehirler / <span>Düzenle</span></div>
+        <div class="page-title">Şehir Düzenle</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="CityList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="UpdateCity" method="post">
+        <input type="hidden" name="CityId" value="@Model.CityId" />
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Şehir Adı</label>
+                <input type="text" name="CityName" value="@Model.CityName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Plaka Kodu</label>
+                <input type="text" name="PlateCode" value="@Model.PlateCode" class="form-control" />
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="CityList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Güncelle
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

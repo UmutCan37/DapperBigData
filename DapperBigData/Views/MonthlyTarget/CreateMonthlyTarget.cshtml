@@ -1,0 +1,62 @@
+﻿@model DapperBigData.Dtos.MonthlyTargetDtos.CreateMonthlyTargetDto
+@{
+    ViewData["Title"] = "Yeni Hedef";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Aylık Hedefler / <span>Yeni Hedef</span></div>
+        <div class="page-title">Yeni Hedef</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="MonthlyTargetList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="CreateMonthlyTarget" method="post">
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Yıl</label>
+                    <input asp-for="TargetYear" class="form-control" placeholder="2026" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ay</label>
+                    <select name="TargetMonth" class="form-control">
+                        <option value="1">Ocak</option>
+                        <option value="2">Şubat</option>
+                        <option value="3">Mart</option>
+                        <option value="4">Nisan</option>
+                        <option value="5">Mayıs</option>
+                        <option value="6">Haziran</option>
+                        <option value="7">Temmuz</option>
+                        <option value="8">Ağustos</option>
+                        <option value="9">Eylül</option>
+                        <option value="10">Ekim</option>
+                        <option value="11">Kasım</option>
+                        <option value="12">Aralık</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Ciro Hedefi (₺)</label>
+                    <input asp-for="RevenueTarget" class="form-control" placeholder="0.00" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sipariş Hedefi</label>
+                    <input asp-for="OrderTarget" class="form-control" placeholder="0" />
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="MonthlyTargetList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Kaydet
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

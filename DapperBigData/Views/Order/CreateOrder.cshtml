@@ -1,0 +1,69 @@
+﻿@model DapperBigData.Dtos.OrderDtos.CreateOrderDto
+@{
+    ViewData["Title"] = "Yeni Sipariş";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / Siparişler / <span>Yeni Sipariş</span></div>
+        <div class="page-title">Yeni Sipariş</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="OrderList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="CreateOrder" method="post">
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Müşteri</label>
+                <select name="CustomerId" class="form-control">
+                    @foreach (var customer in ViewBag.Customers)
+                    {
+                        <option value="@customer.CustomerId">@customer.FullName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ödeme Yöntemi</label>
+                <select name="PaymentMethodId" class="form-control">
+                    @foreach (var pm in ViewBag.PaymentMethods)
+                    {
+                        <option value="@pm.PaymentMethodId">@pm.MethodName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Sipariş No</label>
+                <input asp-for="OrderNumber" class="form-control" placeholder="ORD-20240101-1" />
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Sipariş Tarihi</label>
+                    <input asp-for="OrderDate" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Toplam Tutar</label>
+                    <input asp-for="TotalAmount" class="form-control" placeholder="0.00" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Durum</label>
+                <select name="OrderStatus" class="form-control">
+                    <option value="Completed">Tamamlandı</option>
+                    <option value="Pending">Beklemede</option>
+                    <option value="Cancelled">İptal</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="OrderList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Kaydet
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

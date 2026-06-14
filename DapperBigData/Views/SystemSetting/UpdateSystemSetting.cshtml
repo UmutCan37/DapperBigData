@@ -1,0 +1,57 @@
+﻿@model DapperBigData.Dtos.SystemSettingDtos.GetByIdSystemSettingDto
+@{
+    ViewData["Title"] = "Ayar Düzenle";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Sistem / Ayarlar / <span>Düzenle</span></div>
+        <div class="page-title">Ayar Düzenle</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="SystemSettingList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="UpdateSystemSetting" method="post">
+        <input type="hidden" name="SettingId" value="@Model.SettingId" />
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Anahtar (Key)</label>
+                <input type="text" name="SettingKey" value="@Model.SettingKey" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Değer (Value)</label>
+                <input type="text" name="SettingValue" value="@Model.SettingValue" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tür</label>
+                <select name="IsToggle" class="form-control">
+                    @if (Model.IsToggle)
+                    {
+                        <option value="false">Input (Metin/Sayı)</option>
+                        <option value="true" selected>Toggle (Açık/Kapalı)</option>
+                    }
+                    else
+                    {
+                        <option value="false" selected>Input (Metin/Sayı)</option>
+                        <option value="true">Toggle (Açık/Kapalı)</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Açıklama</label>
+                <input type="text" name="Description" value="@Model.Description" class="form-control" />
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="SystemSettingList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Güncelle
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,63 @@
+﻿@model DapperBigData.Dtos.PaymentMethodDtos.GetByIdPaymentMethodDto
+@{
+    ViewData["Title"] = "Ödeme Yöntemi Detay";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Ödeme Yöntemleri / <span>Detay</span></div>
+        <div class="page-title">@Model.MethodName</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdatePaymentMethod" asp-route-id="@Model.PaymentMethodId" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="PaymentMethodList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--primary-dim);color:var(--primary)">
+            <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="kpi-label">Toplam Sipariş</div>
+        <div class="kpi-val">@Model.TotalOrders.ToString("N0")</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--success-dim);color:var(--success)">
+            <i class="fas fa-turkish-lira-sign"></i>
+        </div>
+        <div class="kpi-label">Toplam Ciro</div>
+        <div class="kpi-val">@Model.TotalRevenue.ToString("N0") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--warning-dim);color:var(--warning)">
+            <i class="fas fa-percent"></i>
+        </div>
+        <div class="kpi-label">Kullanım Oranı</div>
+        <div class="kpi-val">%@Model.RevenueShare</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Ödeme Yöntemi Bilgileri</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">ID</span>
+            <span style="font-weight:700">#@Model.PaymentMethodId</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="color:var(--muted);font-weight:600">Yöntem Adı</span>
+            <span style="font-weight:700">@Model.MethodName</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0">
+            <span style="color:var(--muted);font-weight:600">İkon</span>
+            <span><i class="fas @Model.IconClass"></i> @Model.IconClass</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@{
+    int page = (int)ViewBag.Page;
+    int pageSize = (int)ViewBag.PageSize;
+    int totalCount = (int)ViewBag.TotalCount;
+    int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+    string action = (string)ViewBag.Action;
+}
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+    <div style="font-size:12px;color:var(--muted)">
+        Toplam <strong style="color:var(--text)">@totalCount.ToString("N0")</strong> kayıt,
+        <strong style="color:var(--text)">@totalPages</strong> sayfa
+    </div>
+
+    <div style="display:flex;align-items:center;gap:4px">
+        @* İlk sayfa *@
+        @if (page > 1)
+        {
+            <a asp-action="@action" asp-route-page="1"
+               style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid var(--border);color:var(--muted);text-decoration:none;font-size:12px;transition:all .15s"
+               onmouseover="this.style.background='var(--primary-dim)';this.style.borderColor='var(--primary-mid)';this.style.color='var(--primary)'"
+               onmouseout="this.style.background='';this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+                <i class="fas fa-angles-left"></i>
+            </a>
+            <a asp-action="@action" asp-route-page="@(page - 1)"
+               style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid var(--border);color:var(--muted);text-decoration:none;font-size:12px;transition:all .15s"
+               onmouseover="this.style.background='var(--primary-dim)';this.style.borderColor='var(--primary-mid)';this.style.color='var(--primary)'"
+               onmouseout="this.style.background='';this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        }
+
+        @* Sayfa numaraları *@
+        @{
+            int start = Math.Max(1, page - 2);
+            int end = Math.Min(totalPages, page + 2);
+        }
+
+        @for (int i = start; i <= end; i++)
+        {
+            if (i == page)
+            {
+                <span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;border:1.5px solid var(--primary)">
+                    @i
+                </span>
+            }
+            else
+            {
+                <a asp-action="@action" asp-route-page="@i"
+                   style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid var(--border);color:var(--muted);text-decoration:none;font-size:12px;transition:all .15s"
+                   onmouseover="this.style.background='var(--primary-dim)';this.style.borderColor='var(--primary-mid)';this.style.color='var(--primary)'"
+                   onmouseout="this.style.background='';this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+                    @i
+                </a>
+            }
+        }
+
+        @* Son sayfa *@
+        @if (page < totalPages)
+        {
+            <a asp-action="@action" asp-route-page="@(page + 1)"
+               style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid var(--border);color:var(--muted);text-decoration:none;font-size:12px;transition:all .15s"
+               onmouseover="this.style.background='var(--primary-dim)';this.style.borderColor='var(--primary-mid)';this.style.color='var(--primary)'"
+               onmouseout="this.style.background='';this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a asp-action="@action" asp-route-page="@totalPages"
+               style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid var(--border);color:var(--muted);text-decoration:none;font-size:12px;transition:all .15s"
+               onmouseover="this.style.background='var(--primary-dim)';this.style.borderColor='var(--primary-mid)';this.style.color='var(--primary)'"
+               onmouseout="this.style.background='';this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+                <i class="fas fa-angles-right"></i>
+            </a>
+        }
+    </div>
+</div>

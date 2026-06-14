@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — ECommerce Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+                <div>
+                    <div class="logo-text">ECommerce</div>
+                    <div class="logo-sub">Analytics Panel</div>
+                </div>
+            </div>
+
+            <nav class="nav-wrap">
+                <div class="nav-section-label">Ana Menü</div>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                   asp-controller="Dashboard" asp-action="Index">
+                    <i class="fas fa-house"></i> Dashboard
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Order" ? "active" : "")"
+                   asp-controller="Order" asp-action="OrderList">
+                    <i class="fas fa-bag-shopping"></i> Siparişler
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" ? "active" : "")"
+                   asp-controller="Product" asp-action="ProductList">
+                    <i class="fas fa-box"></i> Ürünler
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Customer" ? "active" : "")"
+                   asp-controller="Customer" asp-action="CustomerList">
+                    <i class="fas fa-users"></i> Müşteriler
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                   asp-controller="Category" asp-action="CategoryList">
+                    <i class="fas fa-tags"></i> Kategoriler
+                </a>
+
+                <div class="nav-section-label">Raporlar</div>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "City" ? "active" : "")"
+                   asp-controller="City" asp-action="CityList">
+                    <i class="fas fa-map-location-dot"></i> Şehirler
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "PaymentMethod" ? "active" : "")"
+                   asp-controller="PaymentMethod" asp-action="PaymentMethodList">
+                    <i class="fas fa-credit-card"></i> Ödeme Yöntemleri
+                </a>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "MonthlyTarget" ? "active" : "")"
+                   asp-controller="MonthlyTarget" asp-action="MonthlyTargetList">
+                    <i class="fas fa-bullseye"></i> Hedefler
+                </a>
+
+                <div class="nav-section-label">Sistem</div>
+
+                <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "SystemSetting" ? "active" : "")"
+                   asp-controller="SystemSetting" asp-action="SystemSettingList">
+                    <i class="fas fa-gear"></i> Ayarlar
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Yönetici</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="search-box">
+                    <i class="fas fa-search" style="color:var(--subtle);font-size:13px"></i>
+                    <input type="text" placeholder="Ara..." />
+                    <span class="kbd">⌘K</span>
+                </div>
+                <div class="tb-right">
+                    <div class="icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="icon-btn">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="sep"></div>
+                    <div class="profile-wrap">
+                        <div class="avatar">A</div>
+                        <div class="p-info">
+                            <div class="p-name">Admin</div>
+                            <div class="p-role">Yönetici</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="content">
+                @RenderBody()
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

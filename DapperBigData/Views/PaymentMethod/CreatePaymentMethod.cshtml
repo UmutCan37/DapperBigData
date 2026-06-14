@@ -1,0 +1,37 @@
+﻿@model DapperBigData.Dtos.PaymentMethodDtos.CreatePaymentMethodDto
+@{
+    ViewData["Title"] = "Yeni Ödeme Yöntemi";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Raporlar / Ödeme Yöntemleri / <span>Yeni</span></div>
+        <div class="page-title">Yeni Ödeme Yöntemi</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="PaymentMethodList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div class="card" style="max-width:600px">
+    <form asp-action="CreatePaymentMethod" method="post">
+        <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="form-group">
+                <label class="form-label">Yöntem Adı</label>
+                <input asp-for="MethodName" class="form-control" placeholder="Kredi Kartı" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">İkon Class (Font Awesome)</label>
+                <input asp-for="IconClass" class="form-control" placeholder="fa-credit-card" />
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <a asp-action="PaymentMethodList" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Kaydet
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

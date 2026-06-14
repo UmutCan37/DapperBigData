@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / <span>Dashboard</span></div>
+        <div class="page-title">Sales Dashboard</div>
+        <div class="page-sub">Hoş geldiniz, Admin · Son senkronizasyon: 2 dk önce</div>
+    </div>
+    <div class="hdr-actions">
+        <button class="btn btn-ghost"><i class="fas fa-download"></i> Export</button>
+        <button class="btn btn-primary"><i class="fas fa-plus"></i> Yeni Satış</button>
+    </div>
+</div>
+
+@await Component.InvokeAsync("KpiCards")
+
+<div class="row-2" style="margin-top:16px">
+    <div class="card">
+        <div class="card-hdr">
+            <div>
+                <div class="card-title">Aylık Ciro Trendi</div>
+                <div class="card-sub">Oca – Ara 2024</div>
+            </div>
+            <div style="display:flex;gap:6px">
+                <span class="badge badge-primary">2024</span>
+                <span class="badge badge-muted">2023</span>
+            </div>
+        </div>
+        <div class="chart-wrap"><canvas id="chartRevenue"></canvas></div>
+    </div>
+    <div class="card">
+        <div class="card-hdr">
+            <div>
+                <div class="card-title">Kategori Bazlı Satış</div>
+                <div class="card-sub">Ciro payı</div>
+            </div>
+        </div>
+        <div class="chart-wrap" style="height:180px"><canvas id="chartDonut"></canvas></div>
+        <div id="donut-legend" style="display:flex;flex-direction:column;gap:6px;margin-top:12px"></div>
+    </div>
+</div>
+
+<div class="row-2-eq" style="margin-top:16px">
+    @await Component.InvokeAsync("TopCities")
+    @await Component.InvokeAsync("PaymentMethods")
+</div>
+
+<div class="row-bottom" style="margin-top:16px">
+    @await Component.InvokeAsync("TopProducts")
+    <div style="display:flex;flex-direction:column;gap:16px">
+        @await Component.InvokeAsync("RecentOrders")
+        @await Component.InvokeAsync("MonthlyTarget")
+    </div>
+</div>
+
+@await Component.InvokeAsync("CityMap")
+
+@section Scripts {
+    <script>
+        const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+
+        new Chart(document.getElementById('chartRevenue'), {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: '2024',
+                        data: [820,910,870,1050,980,1120,1320,1190,1480,1620,1550,1780],
+                        borderColor: '#6366F1',
+                        backgroundColor: 'rgba(99,102,241,.08)',
+                        fill: true, tension: .4,
+                        pointRadius: 3, pointBackgroundColor: '#6366F1',
+                        borderWidth: 2.5, pointHoverRadius: 6
+                    },
+                    {
+                        label: '2023',
+                        data: [640,700,690,810,780,870,920,850,1010,1080,1020,1150],
+                        borderColor: '#CBD5E1', backgroundColor: 'transparent',
+                        fill: false, tension: .4,
+                        pointRadius: 0, borderWidth: 1.5, borderDash: [5,3]
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `₺${ctx.raw}K` } }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#94A3B8' } },
+                    y: { grid: { color: '#F1F5F9', borderDash: [4,4] }, ticks: { font: { size: 10 }, color: '#94A3B8', callback: v => `₺${v}K` } }
+                }
+            }
+        });
+
+        const catColors = ['#6366F1','#22C55E','#F59E0B','#EF4444','#8B5CF6'];
+        const catLabels = @Html.Raw(ViewBag.CategoryLabels ?? "[]");
+        const catData = @Html.Raw(ViewBag.CategoryData ?? "[]");
+
+        new Chart(document.getElementById('chartDonut'), {
+            type: 'doughnut',
+            data: {
+                labels: catLabels,
+                datasets: [{ data: catData, backgroundColor: catColors, borderWidth: 3, borderColor: '#fff', hoverBorderWidth: 4 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.label}: ₺${ctx.raw?.toLocaleString()}` } }
+                },
+                cutout: '68%'
+            }
+        });
+
+        const legend = document.getElementById('donut-legend');
+        catLabels.forEach((label, i) => {
+            legend.innerHTML += `<div style="display:flex;align-items:center;gap:7px">
+                <span style="width:9px;height:9px;border-radius:50%;background:${catColors[i]};flex-shrink:0"></span>
+                <span style="font-size:11px;color:var(--muted)">${label}</span>
+                <span style="margin-left:auto;font-size:11.5px;font-weight:700">₺${Number(catData[i]).toLocaleString()}</span>
+            </div>`;
+        });
+
+        const pmColors = ['#6366F1','#22C55E','#F59E0B','#EF4444'];
+        const pmLabels = @Html.Raw(ViewBag.PaymentLabels ?? "[]");
+        const pmData = @Html.Raw(ViewBag.PaymentData ?? "[]");
+
+        new Chart(document.getElementById('chartPayment'), {
+            type: 'doughnut',
+            data: {
+                labels: pmLabels,
+                datasets: [{ data: pmData, backgroundColor: pmColors, borderWidth: 3, borderColor: '#fff' }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                cutout: '60%'
+            }
+        });
+    </script>
+}

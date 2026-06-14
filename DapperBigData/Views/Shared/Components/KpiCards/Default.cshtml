@@ -1,0 +1,49 @@
+﻿@{
+    decimal totalRevenue = (decimal)ViewBag.TotalRevenue;
+    int totalOrders = (int)ViewBag.TotalOrders;
+    int totalCustomers = (int)ViewBag.TotalCustomers;
+    decimal avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+}
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-c1">
+        <div class="kpi-icon"><i class="fas fa-turkish-lira-sign"></i></div>
+        <div class="kpi-label">Toplam Ciro</div>
+        <div class="kpi-val">₺@((totalRevenue / 1000000).ToString("N1"))M</div>
+        <div class="kpi-delta">
+            <span class="kpi-up">▲ 14.2%</span>
+            <span class="kpi-period">geçen aya göre</span>
+        </div>
+        <div class="kpi-bar"></div>
+    </div>
+    <div class="kpi-card kpi-c2">
+        <div class="kpi-icon"><i class="fas fa-bag-shopping"></i></div>
+        <div class="kpi-label">Toplam Sipariş</div>
+        <div class="kpi-val">@((totalOrders / 1000.0).ToString("N1"))K</div>
+        <div class="kpi-delta">
+            <span class="kpi-up">▲ 9.8%</span>
+            <span class="kpi-period">geçen aya göre</span>
+        </div>
+        <div class="kpi-bar"></div>
+    </div>
+    <div class="kpi-card kpi-c3">
+        <div class="kpi-icon"><i class="fas fa-users"></i></div>
+        <div class="kpi-label">Toplam Müşteri</div>
+        <div class="kpi-val">@((totalCustomers / 1000.0).ToString("N1"))K</div>
+        <div class="kpi-delta">
+            <span class="kpi-up">▲ 6.1%</span>
+            <span class="kpi-period">geçen aya göre</span>
+        </div>
+        <div class="kpi-bar"></div>
+    </div>
+    <div class="kpi-card kpi-c4">
+        <div class="kpi-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="kpi-label">Ort. Sipariş Değeri</div>
+        <div class="kpi-val">₺@avgOrderValue.ToString("N0")</div>
+        <div class="kpi-delta">
+            <span class="kpi-dn">▼ 2.3%</span>
+            <span class="kpi-period">geçen aya göre</span>
+        </div>
+        <div class="kpi-bar"></div>
+    </div>
+</div>

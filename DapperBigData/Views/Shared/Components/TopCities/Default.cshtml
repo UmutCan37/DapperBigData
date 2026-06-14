@@ -1,0 +1,23 @@
+﻿@model List<DapperBigData.Dtos.CityDtos.ResultCityDto>
+
+<div class="card">
+    <div class="card-hdr">
+        <div>
+            <div class="card-title">Şehirlere Göre Ciro</div>
+            <div class="card-sub">Ulusal sıralama</div>
+        </div>
+        <span class="badge badge-success">🇹🇷 Türkiye</span>
+    </div>
+    @foreach (var item in Model)
+    {
+        var maxRevenue = Model.Max(x => x.TotalRevenue);
+        var pct = maxRevenue > 0 ? (double)(item.TotalRevenue / maxRevenue * 100) : 0;
+        <div class="hbar-item">
+            <span class="hbar-label">@item.CityName</span>
+            <div class="hbar-track">
+                <div class="hbar-fill" style="width:@pct%;background:linear-gradient(90deg,#6366F1,#818CF8)"></div>
+            </div>
+            <span class="hbar-val">₺@((item.TotalRevenue / 1000000).ToString("N1"))M</span>
+        </div>
+    }
+</div>

@@ -1,0 +1,135 @@
+﻿@model DapperBigData.Dtos.OrderDtos.GetByIdOrderDto
+@{
+    ViewData["Title"] = "Sipariş Detay";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / Siparişler / <span>Detay</span></div>
+        <div class="page-title">@Model.OrderNumber</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="UpdateOrder" asp-route-id="@Model.OrderId" class="btn btn-ghost">
+            <i class="fas fa-pen"></i> Düzenle
+        </a>
+        <a asp-action="OrderList" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--primary-dim);color:var(--primary)">
+            <i class="fas fa-turkish-lira-sign"></i>
+        </div>
+        <div class="kpi-label">Toplam Tutar</div>
+        <div class="kpi-val">@Model.TotalAmount.ToString("N2") ₺</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--success-dim);color:var(--success)">
+            <i class="fas fa-box"></i>
+        </div>
+        <div class="kpi-label">Ürün Kalemi</div>
+        <div class="kpi-val">@Model.OrderDetails.Count</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--warning-dim);color:var(--warning)">
+            <i class="fas fa-calendar"></i>
+        </div>
+        <div class="kpi-label">Sipariş Tarihi</div>
+        <div class="kpi-val" style="font-size:16px">@Model.OrderDate.ToString("dd.MM.yyyy")</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card">
+        <div class="card-hdr">
+            <div class="card-title">Sipariş Bilgileri</div>
+            @if (Model.OrderStatus == "Completed")
+            {
+                <span class="badge badge-success">Tamamlandı</span>
+            }
+            else if (Model.OrderStatus == "Pending")
+            {
+                <span class="badge badge-warning">Beklemede</span>
+            }
+            else
+            {
+                <span class="badge badge-danger">İptal</span>
+            }
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--muted);font-weight:600">Sipariş No</span>
+                <code>@Model.OrderNumber</code>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--muted);font-weight:600">Ödeme Yöntemi</span>
+                <div style="display:flex;align-items:center;gap:6px">
+                    <i class="fas @Model.PaymentIconClass" style="color:var(--muted)"></i>
+                    @Model.PaymentMethod
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0">
+                <span style="color:var(--muted);font-weight:600">Şehir</span>
+                <span class="badge badge-muted">@Model.CityName</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-hdr">
+            <div class="card-title">Müşteri Bilgileri</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--muted);font-weight:600">Ad Soyad</span>
+                <span style="font-weight:700">@Model.CustomerFullName</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--muted);font-weight:600">E-posta</span>
+                <span>@Model.CustomerEmail</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0">
+                <span style="color:var(--muted);font-weight:600">Telefon</span>
+                <span>@Model.CustomerPhone</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-hdr">
+        <div class="card-title">Sipariş Kalemleri</div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ürün</th>
+                    <th>SKU</th>
+                    <th>Kategori</th>
+                    <th>Adet</th>
+                    <th>Birim Fiyat</th>
+                    <th>Toplam</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@detail.OrderDetailId</td>
+                        <td style="font-weight:600">@detail.ProductName</td>
+                        <td><code>@detail.Sku</code></td>
+                        <td><span class="badge badge-muted">@detail.CategoryName</span></td>
+                        <td>@detail.Quantity</td>
+                        <td>@detail.UnitPrice.ToString("N2") ₺</td>
+                        <td style="font-weight:700">@detail.LineTotal.ToString("N2") ₺</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

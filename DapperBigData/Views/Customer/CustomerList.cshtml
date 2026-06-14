@@ -1,0 +1,81 @@
+﻿@model List<DapperBigData.Dtos.CustomerDtos.ResultCustomerDto>
+@{
+    ViewData["Title"] = "Müşteriler";
+}
+
+<div class="page-hdr">
+    <div>
+        <div class="breadcrumb">Ana Menü / <span>Müşteriler</span></div>
+        <div class="page-title">Müşteriler</div>
+        <div class="page-sub">Toplam @ViewBag.TotalCount kayıt</div>
+    </div>
+    <div class="hdr-actions">
+        <a asp-action="CreateCustomer" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Yeni Müşteri
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Telefon</th>
+                    <th>Şehir</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CustomerId</td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <div style="width:32px;height:32px;border-radius:50%;background:var(--primary-dim);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">
+                                    @item.FirstName[0]@item.LastName[0]
+                                </div>
+                                <span style="font-weight:600">@item.FullName</span>
+                            </div>
+                        </td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td><span class="badge badge-muted">@item.CityName</span></td>
+                        <td>@item.CreatedAt.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge badge-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Pasif</span>
+                            }
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px">
+                                <a asp-action="CustomerDetail" asp-route-id="@item.CustomerId" class="btn btn-ghost btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a asp-action="UpdateCustomer" asp-route-id="@item.CustomerId" class="btn btn-ghost btn-sm">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a asp-action="DeleteCustomer" asp-route-id="@item.CustomerId" class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @await Html.PartialAsync("_Pagination")
+</div>
