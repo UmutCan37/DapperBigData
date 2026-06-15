@@ -86,6 +86,7 @@ namespace DapperBigData.Services.Concrete
         {
             string query = @"SELECT TOP(5)
                     c.CategoryId, c.CategoryName, c.IconClass, c.ColorCode,
+                    COUNT(DISTINCT p.ProductId) AS ProductCount,
                     ISNULL(SUM(od.Quantity), 0) AS TotalSold,
                     ISNULL(SUM(od.Quantity * od.UnitPrice), 0) AS TotalRevenue
                     FROM Categories c

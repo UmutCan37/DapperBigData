@@ -9,7 +9,77 @@
         <div class="page-sub">Hoş geldiniz, Admin · Son senkronizasyon: 2 dk önce</div>
     </div>
     <div class="hdr-actions">
-        <button class="btn btn-ghost"><i class="fas fa-download"></i> Export</button>
+        <div style="position:relative">
+            <button class="btn btn-ghost" onclick="toggleExportMenu()" id="export-btn">
+                <i class="fas fa-download"></i> Export
+                <i class="fas fa-chevron-down" style="font-size:10px;margin-left:2px"></i>
+            </button>
+            <div id="export-menu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:8px;min-width:280px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100">
+                <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding:4px 8px 8px">Raporları İndir</div>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-bag-shopping" style="color:var(--primary);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Sipariş Raporu</span>
+                        <a asp-controller="Report" asp-action="OrderExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="OrderPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-users" style="color:var(--success);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Müşteri Raporu</span>
+                        <a asp-controller="Report" asp-action="CustomerExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="CustomerPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-box" style="color:var(--warning);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Ürün Raporu</span>
+                        <a asp-controller="Report" asp-action="ProductExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="ProductPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-tags" style="color:var(--purple);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Kategori Raporu</span>
+                        <a asp-controller="Report" asp-action="CategoryExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="CategoryPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-map-location-dot" style="color:var(--success);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Şehir Raporu</span>
+                        <a asp-controller="Report" asp-action="CityExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="CityPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--bg)">
+                        <i class="fas fa-bullseye" style="color:var(--danger);width:16px"></i>
+                        <span style="font-size:12px;font-weight:600;flex:1">Hedef Raporu</span>
+                        <a asp-controller="Report" asp-action="MonthlyTargetExcel" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-excel" style="color:#22C55E"></i> Excel
+                        </a>
+                        <a asp-controller="Report" asp-action="MonthlyTargetPdf" class="btn btn-ghost btn-sm" style="padding:4px 10px">
+                            <i class="fas fa-file-pdf" style="color:#EF4444"></i> PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <button class="btn btn-primary"><i class="fas fa-plus"></i> Yeni Satış</button>
     </div>
 </div>
@@ -21,11 +91,11 @@
         <div class="card-hdr">
             <div>
                 <div class="card-title">Aylık Ciro Trendi</div>
-                <div class="card-sub">Oca – Ara 2024</div>
+                <div class="card-sub">Oca – Ara</div>
             </div>
             <div style="display:flex;gap:6px">
-                <span class="badge badge-primary">2024</span>
-                <span class="badge badge-muted">2023</span>
+                <span class="badge badge-primary">2026</span>
+                <span class="badge badge-muted">2025</span>
             </div>
         </div>
         <div class="chart-wrap"><canvas id="chartRevenue"></canvas></div>
@@ -59,7 +129,23 @@
 
 @section Scripts {
     <script>
+        // Export dropdown
+        function toggleExportMenu() {
+            const menu = document.getElementById('export-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', function(e) {
+            const btn = document.getElementById('export-btn');
+            const menu = document.getElementById('export-menu');
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        });
+
         const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+        const rev2025 = @Html.Raw(ViewBag.Revenue2025 ?? "[]");
+        const rev2026 = @Html.Raw(ViewBag.Revenue2026 ?? "[]");
 
         new Chart(document.getElementById('chartRevenue'), {
             type: 'line',
@@ -67,8 +153,8 @@
                 labels: months,
                 datasets: [
                     {
-                        label: '2024',
-                        data: [820,910,870,1050,980,1120,1320,1190,1480,1620,1550,1780],
+                        label: '2026',
+                        data: rev2026,
                         borderColor: '#6366F1',
                         backgroundColor: 'rgba(99,102,241,.08)',
                         fill: true, tension: .4,
@@ -76,8 +162,8 @@
                         borderWidth: 2.5, pointHoverRadius: 6
                     },
                     {
-                        label: '2023',
-                        data: [640,700,690,810,780,870,920,850,1010,1080,1020,1150],
+                        label: '2025',
+                        data: rev2025,
                         borderColor: '#CBD5E1', backgroundColor: 'transparent',
                         fill: false, tension: .4,
                         pointRadius: 0, borderWidth: 1.5, borderDash: [5,3]

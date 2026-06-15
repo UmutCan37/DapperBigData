@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace DapperBigData.Context
 {
@@ -13,8 +14,8 @@ namespace DapperBigData.Context
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("connectionKey");
         }
-        public IDbConnection CreateConnection()
-            => new SqlConnection(_connectionString);
+    public SqlConnection CreateConnection() =>
+    new SqlConnection(_configuration.GetConnectionString("connectionKey") + ";Command Timeout=120");
 
 
     }

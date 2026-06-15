@@ -142,5 +142,20 @@ namespace DapperBigData.Services.Concrete
             var connection = _context.CreateConnection();
             return await connection.ExecuteScalarAsync<decimal>(query);
         }
+
+        public async Task<List<ResultMonthlyRevenueDto>> GetMonthlyRevenueAsync(int year)
+        {
+            string query = @"SELECT MONTH(OrderDate) AS MonthNumber,
+                    ISNULL(SUM(TotalAmount), 0) AS Revenue
+                    FROM Orders
+                    WHERE YEAR(OrderDate) = @Year
+                    GROUP BY MONTH(OrderDate)
+                    ORDER BY MONTH(OrderDate)";
+            var parameters = new DynamicParameters();
+            parameters.Add("@Year", year);
+            var connection = _context.CreateConnection();
+            var result = await connection.QueryAsync<ResultMonthlyRevenueDto>(query, parameters);
+            return result.ToList();
+        }
     }
 }

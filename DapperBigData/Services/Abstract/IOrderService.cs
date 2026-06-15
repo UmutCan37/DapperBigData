@@ -14,5 +14,7 @@ namespace DapperBigData.Services.Abstract
         Task<List<ResultOrderDto>> GetRecentOrdersAsync();
 
         Task<decimal> GetTotalRevenueAsync();
+
+        Task<List<ResultMonthlyRevenueDto>> GetMonthlyRevenueAsync(int year);
     }
 }

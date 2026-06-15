@@ -29,22 +29,48 @@ namespace DapperBigData.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // KPI
-            ViewBag.TotalRevenue = await _orderService.GetTotalRevenueAsync();
-            ViewBag.TotalOrders = await _orderService.GetCountAsync();
-            ViewBag.TotalCustomers = await _customerService.GetCountAsync();
+            var categoriesTask = _categoryService.GetTopCategoriesAsync();
+            var totalRevenueTask = _orderService.GetTotalRevenueAsync();
+            var totalOrdersTask = _orderService.GetCountAsync();
+            var totalCustomersTask = _customerService.GetCountAsync();
+            var totalProductsTask = _productService.GetCountAsync();
+            var paymentTask = _paymentMethodService.GetAllAsync(1, 100);
+            var revenue2025Task = _orderService.GetMonthlyRevenueAsync(2025);
+            var revenue2026Task = _orderService.GetMonthlyRevenueAsync(2026);
 
-            // Category Donut Chart
-            var categories = await _categoryService.GetTopCategoriesAsync();
+            await Task.WhenAll(
+                categoriesTask, totalRevenueTask, totalOrdersTask,
+                totalCustomersTask, totalProductsTask, paymentTask,
+                revenue2025Task, revenue2026Task);
+
+            var categories = categoriesTask.Result;
             ViewBag.CategoryLabels = JsonSerializer.Serialize(categories.Select(x => x.CategoryName).ToList());
             ViewBag.CategoryData = JsonSerializer.Serialize(categories.Select(x => (double)x.TotalRevenue).ToList());
 
-            // Payment Chart
-            var payments = await _paymentMethodService.GetAllAsync(1, 100);
+            ViewBag.TotalRevenue = totalRevenueTask.Result;
+            ViewBag.TotalOrders = totalOrdersTask.Result;
+            ViewBag.TotalCustomers = totalCustomersTask.Result;
+            ViewBag.TotalProducts = totalProductsTask.Result;
+
+            var payments = paymentTask.Result;
             ViewBag.PaymentLabels = JsonSerializer.Serialize(payments.Select(x => x.MethodName).ToList());
             ViewBag.PaymentData = JsonSerializer.Serialize(payments.Select(x => x.TotalOrders).ToList());
+
+            
+            var rev2025 = new decimal[12];
+            var rev2026 = new decimal[12];
+
+            foreach (var item in revenue2025Task.Result)
+                rev2025[item.MonthNumber - 1] = item.Revenue / 1000;
+
+            foreach (var item in revenue2026Task.Result)
+                rev2026[item.MonthNumber - 1] = item.Revenue / 1000;
+
+            ViewBag.Revenue2025 = JsonSerializer.Serialize(rev2025);
+            ViewBag.Revenue2026 = JsonSerializer.Serialize(rev2026);
 
             return View();
         }
     }
-}
+    }
+
